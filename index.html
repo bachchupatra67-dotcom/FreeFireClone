@@ -126,9 +126,9 @@
       let kills = 0;
       const player = createHumanoid(0xffe0bd, 0x2980b9, 0x2c3e50);
       scene.add(player);
-
       // Weapon 1: Custom Sci-Fi Energy Rifle (Code Based)
-      let customGun = new THREE.Group();
+      // We are naming this 'ak47' so the firing logic below still works!
+      let ak47 = new THREE.Group(); 
       
       const darkMetal = new THREE.MeshLambertMaterial({color: 0x222222});
       const neonGlow = new THREE.MeshBasicMaterial({color: 0x00ffcc}); // Glowing cyan
@@ -156,11 +156,12 @@
       grip.rotation.x = Math.PI / 8;
       grip.position.set(0, -0.1, 0.1);
       
-      customGun.add(gunBody, barrel, core, scope, grip);
+      ak47.add(gunBody, barrel, core, scope, grip);
       
       // Position gun in character's hand
-      customGun.position.set(0.4, 1.0, -0.6);
-      player.add(customGun);
+      ak47.position.set(0.4, 1.0, -0.6);
+      player.add(ak47);
+
 
 
       // Weapon 2: M1887 Shotgun Skin
