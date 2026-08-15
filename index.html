@@ -124,7 +124,26 @@
       let playerHP = 100;
       let playerYaw = 0;
       let kills = 0;
-      const player = createHumanoid(0xffe0bd, 0x2980b9, 0x2c3e50);
+            // 1. Create an invisible anchor for the camera and movement
+      const player = new THREE.Group();
+      
+      // 2. Load the realistic Spider-Man GLB model
+      const loader = new THREE.GLTFLoader();
+      loader.load('spiderman.glb', function(gltf) {
+        const spidermanModel = gltf.scene;
+        
+        // ADJUST THESE NUMBERS based on the downloaded model's size
+        spidermanModel.scale.set(0.01, 0.01, 0.01); 
+        
+        // Adjust this if Spider-Man is floating or sunk into the ground
+        spidermanModel.position.set(0, 0, 0); 
+        
+        // Spin him around if he is running backward
+        spidermanModel.rotation.y = Math.PI; 
+        
+        player.add(spidermanModel);
+      });
+
       scene.add(player);
       // Weapon 1: Custom Sci-Fi Energy Rifle (Code Based)
       // We are naming this 'ak47' so the firing logic below still works!
