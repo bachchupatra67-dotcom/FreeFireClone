@@ -268,9 +268,14 @@
         const side = new THREE.Vector3(Math.cos(playerYaw), 0, -Math.sin(playerYaw));
         player.position.addScaledVector(side, moveX * 0.15).addScaledVector(forward, -moveZ * 0.15);
 
-        const camOffset = new THREE.Vector3(0, 5, 8).applyAxisAngle(new THREE.Vector3(0, 1, 0), playerYaw);
+        // X=1.5 (shifts right), Y=3 (lowers height), Z=5 (zooms in closer)
+        const camOffset = new THREE.Vector3(1.5, 3, 5).applyAxisAngle(new THREE.Vector3(0, 1, 0), playerYaw);
         camera.position.copy(player.position).add(camOffset);
-        camera.lookAt(player.position.x, player.position.y + 1.5, player.position.z);
+        
+        // Look slightly ahead of the player instead of directly at their back
+        const lookTarget = new THREE.Vector3(0, 1.5, -10).applyAxisAngle(new THREE.Vector3(0, 1, 0), playerYaw);
+        camera.lookAt(player.position.clone().add(lookTarget));
+
 
         // Bullets
         for (let i = bullets.length - 1; i >= 0; i--) {
