@@ -5,22 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Free Fire - Combat & Skins Update</title>
   <style>
-      #free-look-btn {
-      position: absolute; top: 100px; right: 25px;
-      width: 50px; height: 50px; border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4); border: 2px solid #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; pointer-events: auto; z-index: 10;
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; touch-action: none; }
     body, html { width: 100%; height: 100%; overflow: hidden; background-color: #87ceeb; font-family: sans-serif; }
     #game-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
     #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+    
     #crosshair {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
       width: 10px; height: 10px; border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 50%;
     }
+    
     #header-hud { position: absolute; top: 15px; left: 15px; display: flex; flex-direction: column; gap: 6px; }
     .hud-card {
       background: rgba(0, 0, 0, 0.6); padding: 6px 12px; border-radius: 8px; color: #fff;
@@ -28,12 +22,23 @@
     }
     #health-bar-bg { width: 140px; height: 12px; background: #444; border-radius: 6px; margin-top: 3px; border: 1px solid #222; }
     #health-bar-fill { width: 100%; height: 100%; background: #2ecc71; transition: width 0.2s ease, background-color 0.2s ease; }
+    
+    /* 360 Free Look Button */
+    #free-look-btn {
+      position: absolute; top: 100px; right: 25px;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4); border: 2px solid #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; pointer-events: auto; z-index: 10;
+    }
+
     #joystick-zone { position: absolute; bottom: 25px; left: 25px; width: 120px; height: 120px; pointer-events: auto; }
     #joystick-base {
       width: 100%; height: 100%; border-radius: 50%; background: rgba(255, 255, 255, 0.2);
       border: 2px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center;
     }
     #joystick-handle { width: 46px; height: 46px; border-radius: 50%; background: rgba(255, 255, 255, 0.85); }
+    
     #controls-zone {
       position: absolute; bottom: 25px; right: 25px; display: flex; flex-direction: column;
       align-items: flex-end; gap: 12px; pointer-events: auto;
@@ -43,28 +48,25 @@
     #gloo-btn { background: #00bcd4; border-color: #0097a7; padding: 10px 16px; border-radius: 8px; }
     #fire-btn { width: 75px; height: 75px; border-radius: 50%; background: #e74c3c; color: #fff; border: 3px solid #fff; font-weight: bold; font-size: 16px; }
   </style>
+  
+  <!-- Three.js and GLTFLoader Scripts -->
   <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
   <div id="game-container"></div>
   <div id="ui-layer">
     <div id="crosshair"></div>
+    
     <div id="header-hud">
       <div class="hud-card">KILLS: <span id="kill-count" style="color: #f1c40f;">0</span></div>
       <div class="hud-card">HP<div id="health-bar-bg"><div id="health-bar-fill" id="hp-fill"></div></div></div>
     </div>
-      <div id="ui-layer">
-    <div id="crosshair"></div>
-    <div id="header-hud">
-      <!-- Your existing HUD code is here -->
-    </div>
     
-    <!-- ADD THIS NEW LINE: -->
     <div id="free-look-btn">👁️</div>
 
-    <div id="joystick-zone">
-
     <div id="joystick-zone"><div id="joystick-base"><div id="joystick-handle"></div></div></div>
+    
     <div id="controls-zone">
       <button id="gloo-btn" class="action-btn">GLOO WALL (5)</button>
       <div>
@@ -124,7 +126,7 @@
         createRock((Math.random() - 0.5) * 200, (Math.random() - 0.5) * 200, Math.random() * 1.5 + 0.5);
       }
 
-      // --- HUMANOID GENERATOR ---
+      // --- HUMANOID GENERATOR (For Enemies) ---
       function createHumanoid(skinColor, shirtColor, pantsColor) {
         const group = new THREE.Group();
         const head = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 0.6), new THREE.MeshLambertMaterial({ color: skinColor }));
@@ -143,74 +145,53 @@
       let playerHP = 100;
       let playerYaw = 0;
       let kills = 0;
-            // 1. Create an invisible anchor for the camera and movement
+      
+      // 1. Create an invisible anchor for the camera and movement
       const player = new THREE.Group();
+      scene.add(player);
       
       // 2. Load the realistic Spider-Man GLB model
       const loader = new THREE.GLTFLoader();
       loader.load('spiderman.glb', function(gltf) {
         const spidermanModel = gltf.scene;
-        
-        // ADJUST THESE NUMBERS based on the downloaded model's size
         spidermanModel.scale.set(0.01, 0.01, 0.01); 
-        
-        // Adjust this if Spider-Man is floating or sunk into the ground
         spidermanModel.position.set(0, 0, 0); 
-        
-        // Spin him around if he is running backward
         spidermanModel.rotation.y = Math.PI; 
-        
         player.add(spidermanModel);
       });
 
-      scene.add(player);
-      // Weapon 1: Custom Sci-Fi Energy Rifle (Code Based)
-      // We are naming this 'ak47' so the firing logic below still works!
+      // Weapon 1: Custom Sci-Fi Energy Rifle
       let ak47 = new THREE.Group(); 
-      
       const darkMetal = new THREE.MeshLambertMaterial({color: 0x222222});
-      const neonGlow = new THREE.MeshBasicMaterial({color: 0x00ffcc}); // Glowing cyan
+      const neonGlow = new THREE.MeshBasicMaterial({color: 0x00ffcc}); 
       
-      // Main Body
       const gunBody = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.15, 0.5), darkMetal);
       gunBody.position.set(0, 0, 0);
-      
-      // Long Barrel
       const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 8), darkMetal);
       barrel.rotation.x = Math.PI / 2;
       barrel.position.set(0, 0.03, -0.4);
-      
-      // Glowing Energy Core
       const core = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.05, 0.25), neonGlow);
       core.position.set(0, 0.03, -0.1);
-      
-      // Sniper Scope
       const scope = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.2, 8), darkMetal);
       scope.rotation.x = Math.PI / 2;
       scope.position.set(0, 0.12, 0);
-
-      // Grip
       const grip = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.15, 0.1), darkMetal);
       grip.rotation.x = Math.PI / 8;
       grip.position.set(0, -0.1, 0.1);
       
       ak47.add(gunBody, barrel, core, scope, grip);
-      
-      // Position gun in character's hand
       ak47.position.set(0.4, 1.0, -0.6);
       player.add(ak47);
 
-
-
       // Weapon 2: M1887 Shotgun Skin
       const m1887 = new THREE.Group();
-      const sgBarrel = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.08, 0.9), new THREE.MeshLambertMaterial({color: 0x777777})); // Metal
+      const sgBarrel = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.08, 0.9), new THREE.MeshLambertMaterial({color: 0x777777})); 
       sgBarrel.position.set(0, 0, -0.45);
-      const sgStock = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.15, 0.4), new THREE.MeshLambertMaterial({color: 0x5c4033})); // Dark Wood
+      const sgStock = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.15, 0.4), new THREE.MeshLambertMaterial({color: 0x5c4033})); 
       sgStock.position.set(0, -0.05, 0.2);
       m1887.add(sgBarrel, sgStock);
       m1887.position.set(0.4, 1.0, -0.6);
-      m1887.visible = false; // Hidden by default
+      m1887.visible = false; 
       player.add(m1887);
 
       // --- WEAPON SYSTEM ---
@@ -290,12 +271,23 @@
       });
       joystickZone.addEventListener('touchend', () => { joystickHandle.style.transform = 'translate(0,0)'; moveX = moveZ = 0; });
 
-      window.addEventListener('touchstart', (e) => { for (let i=0; i<e.touches.length; i++) if (e.touches[i].clientX > window.innerWidth/2) touchStartX = e.touches[i].clientX; });
-      window.addEventListener('touchmove', (e) => {
-        for (let i=0; i<e.touches.length; i++) if (e.touches[i].clientX > window.innerWidth/2) {
-          playerYaw -= (e.touches[i].clientX - touchStartX) * 0.006; touchStartX = e.touches[i].clientX;
+      // Player Rotation (Screen Drag)
+      window.addEventListener('touchstart', (e) => { 
+        for (let i=0; i<e.touches.length; i++) {
+          if (e.touches[i].clientX > window.innerWidth/2 && e.target.id !== 'free-look-btn') {
+            touchStartX = e.touches[i].clientX; 
+          }
         }
       });
+      window.addEventListener('touchmove', (e) => {
+        for (let i=0; i<e.touches.length; i++) {
+          if (e.touches[i].clientX > window.innerWidth/2 && e.target.id !== 'free-look-btn') {
+            playerYaw -= (e.touches[i].clientX - touchStartX) * 0.006; 
+            touchStartX = e.touches[i].clientX;
+          }
+        }
+      });
+
       // --- FREE LOOK (360 VIEW) SYSTEM ---
       let freeLookYaw = 0;
       let isFreeLooking = false;
@@ -303,7 +295,7 @@
       const freeLookBtn = document.getElementById('free-look-btn');
 
       freeLookBtn.addEventListener('touchstart', (e) => {
-        e.stopPropagation(); // Prevents the player's body from rotating
+        e.stopPropagation(); 
         isFreeLooking = true;
         freeLookStartX = e.touches[0].clientX;
       });
@@ -311,7 +303,6 @@
       freeLookBtn.addEventListener('touchmove', (e) => {
         e.stopPropagation();
         if (!isFreeLooking) return;
-        // Adjust the 0.01 multiplier if you want the camera to orbit faster or slower
         freeLookYaw -= (e.touches[0].clientX - freeLookStartX) * 0.01; 
         freeLookStartX = e.touches[0].clientX;
       });
@@ -319,7 +310,7 @@
       freeLookBtn.addEventListener('touchend', (e) => {
         e.stopPropagation();
         isFreeLooking = false;
-        freeLookYaw = 0; // Snaps the camera back behind the player when released
+        freeLookYaw = 0; 
       });
 
       // --- GAME LOOP ---
@@ -331,13 +322,15 @@
         const side = new THREE.Vector3(Math.cos(playerYaw), 0, -Math.sin(playerYaw));
         player.position.addScaledVector(side, moveX * 0.15).addScaledVector(forward, -moveZ * 0.15);
 
-        // X=1.5 (shifts right), Y=3 (lowers height), Z=5 (zooms in closer)
-        const camOffset = new THREE.Vector3(1.5, 3, 5).applyAxisAngle(new THREE.Vector3(0, 1, 0), playerYaw);
+        // --- 360 CAMERA COMBINATION ---
+        const currentCamYaw = playerYaw + freeLookYaw;
+
+        // Position camera over the shoulder, but orbit around if free-looking
+        const camOffset = new THREE.Vector3(1.5, 3, 5).applyAxisAngle(new THREE.Vector3(0, 1, 0), currentCamYaw);
         camera.position.copy(player.position).add(camOffset);
         
-        // Look slightly ahead of the player instead of directly at their back
-        const lookTarget = new THREE.Vector3(0, 1.5, -10).applyAxisAngle(new THREE.Vector3(0, 1, 0), playerYaw);
-        camera.lookAt(player.position.clone().add(lookTarget));
+        // Always lock the camera's focus exactly onto the player's chest/head
+        camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z);
 
 
         // Bullets
@@ -366,24 +359,22 @@
         enemies.forEach(enemy => {
           const distToPlayer = enemy.mesh.position.distanceTo(player.position);
           
-          // Enemy attacks if close enough
           if (distToPlayer <= 2.5) {
-            if (Date.now() - enemy.lastAttack > 1000) { // 1 second cooldown between hits
+            if (Date.now() - enemy.lastAttack > 1000) { 
               playerHP -= 15;
               hpBar.style.width = Math.max(0, playerHP) + '%';
-              hpBar.style.backgroundColor = '#e74c3c'; // Flash red
-              setTimeout(() => { hpBar.style.backgroundColor = '#2ecc71'; }, 200); // Return to green
+              hpBar.style.backgroundColor = '#e74c3c'; 
+              setTimeout(() => { hpBar.style.backgroundColor = '#2ecc71'; }, 200); 
               enemy.lastAttack = Date.now();
 
               if (playerHP <= 0) {
                 alert("YOU WERE ELIMINATED! Respawning...");
                 playerHP = 100;
                 hpBar.style.width = '100%';
-                player.position.set(0, 0, 0); // Reset position
+                player.position.set(0, 0, 0); 
               }
             }
           } else if (distToPlayer < 40) {
-            // Chase player if not attacking
             let blocked = false;
             for (let w = 0; w < glooWalls.length; w++) if (enemy.mesh.position.distanceTo(glooWalls[w].position) < 3) blocked = true;
             if (!blocked) {
