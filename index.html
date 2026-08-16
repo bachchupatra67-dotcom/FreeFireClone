@@ -325,12 +325,12 @@
         // --- 360 CAMERA COMBINATION ---
         const currentCamYaw = playerYaw + freeLookYaw;
 
-        // Position camera over the shoulder, but orbit around if free-looking
-        const camOffset = new THREE.Vector3(1.5, 3, 5).applyAxisAngle(new THREE.Vector3(0, 1, 0), currentCamYaw);
+        // X=0 (Centered), Y=2.5 (Head height), Z=5.5 (Distance behind player)
+        const camOffset = new THREE.Vector3(0, 2.5, 5.5).applyAxisAngle(new THREE.Vector3(0, 1, 0), currentCamYaw);
         camera.position.copy(player.position).add(camOffset);
         
-        // Always lock the camera's focus exactly onto the player's chest/head
-        camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z);
+        // Always lock the camera's focus exactly onto the player's upper body
+        camera.lookAt(player.position.x, player.position.y + 1.5, player.position.z);
 
 
         // Bullets
