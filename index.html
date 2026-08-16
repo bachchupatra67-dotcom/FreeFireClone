@@ -146,19 +146,21 @@
       let playerYaw = 0;
       let kills = 0;
       
-      // 1. Create an invisible anchor for the camera and movement
-      const player = new THREE.Group();
+      // 1. Restore the base character so you are never invisible
+      const player = createHumanoid(0xffe0bd, 0x2980b9, 0x2c3e50);
       scene.add(player);
       
-      // 2. Load the realistic Spider-Man GLB model
+      // 2. You can keep your GLB loader here! 
+      // If a valid model eventually loads, it will automatically wrap around your base character.
       const loader = new THREE.GLTFLoader();
-      loader.load('battle_royal_soldier.glb', function(gltf) {
+      loader.load('spiderman.glb', function(gltf) {
         const spidermanModel = gltf.scene;
         spidermanModel.scale.set(0.01, 0.01, 0.01); 
-        spidermanModel.position.set(0, 0, 0); 
+        spidermanModel.position.set(0, -1.0, 0); // Lowered slightly to match the box man's feet
         spidermanModel.rotation.y = Math.PI; 
         player.add(spidermanModel);
       });
+
 
       // Weapon 1: Custom Sci-Fi Energy Rifle
       let ak47 = new THREE.Group(); 
