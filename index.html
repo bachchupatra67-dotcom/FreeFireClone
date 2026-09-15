@@ -1,396 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Free Fire - Combat & Skins Update</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; touch-action: none; }
-    body, html { width: 100%; height: 100%; overflow: hidden; background-color: #87ceeb; font-family: sans-serif; }
-    #game-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
-    #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-    
-    #crosshair {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 10px; height: 10px; border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 50%;
-    }
-    
-    #header-hud { position: absolute; top: 15px; left: 15px; display: flex; flex-direction: column; gap: 6px; }
-    .hud-card {
-      background: rgba(0, 0, 0, 0.6); padding: 6px 12px; border-radius: 8px; color: #fff;
-      font-size: 13px; font-weight: bold; border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    #health-bar-bg { width: 140px; height: 12px; background: #444; border-radius: 6px; margin-top: 3px; border: 1px solid #222; }
-    #health-bar-fill { width: 100%; height: 100%; background: #2ecc71; transition: width 0.2s ease, background-color 0.2s ease; }
-    
-    /* 360 Free Look Button */
-    #free-look-btn {
-      position: absolute; top: 100px; right: 25px;
-      width: 50px; height: 50px; border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4); border: 2px solid #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; pointer-events: auto; z-index: 10;
-    }
-
-    #joystick-zone { position: absolute; bottom: 25px; left: 25px; width: 120px; height: 120px; pointer-events: auto; }
-    #joystick-base {
-      width: 100%; height: 100%; border-radius: 50%; background: rgba(255, 255, 255, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center;
-    }
-    #joystick-handle { width: 46px; height: 46px; border-radius: 50%; background: rgba(255, 255, 255, 0.85); }
-    
-    #controls-zone {
-      position: absolute; bottom: 25px; right: 25px; display: flex; flex-direction: column;
-      align-items: flex-end; gap: 12px; pointer-events: auto;
-    }
-    .action-btn { background: rgba(0, 0, 0, 0.65); border: 2px solid #fff; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-    .action-btn.active { background: #f39c12; border-color: #f1c40f; }
-    #gloo-btn { background: #00bcd4; border-color: #0097a7; padding: 10px 16px; border-radius: 8px; }
-    #fire-btn { width: 75px; height: 75px; border-radius: 50%; background: #e74c3c; color: #fff; border: 3px solid #fff; font-weight: bold; font-size: 16px; }
-  </style>
-  
-  <!-- Three.js and GLTFLoader Scripts -->
-  <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
-  <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#312e81" />
+  <title>StudiesSupport — Learn with confidence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game-container"></div>
-  <div id="ui-layer">
-    <div id="crosshair"></div>
-    
-    <div id="header-hud">
-      <div class="hud-card">KILLS: <span id="kill-count" style="color: #f1c40f;">0</span></div>
-      <div class="hud-card">HP<div id="health-bar-bg"><div id="health-bar-fill" id="hp-fill"></div></div></div>
-    </div>
-    
-    <div id="free-look-btn">👁️</div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="StudiesSupport home"><span class="brand-mark">S</span><span>Studies<span>Support</span></span></a>
+      <nav class="nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#dashboard" data-page="dashboard"><span>▦</span> Overview</a>
+        <a class="nav-link" href="#quiz" data-page="quiz"><span>✦</span> Practice quiz</a>
+        <a class="nav-link" href="#mock" data-page="mock"><span>◷</span> Timed mock</a>
+        <a class="nav-link" href="#timer" data-page="timer"><span>◌</span> Study timer</a>
+        <a class="nav-link" href="#notes" data-page="notes"><span>▤</span> My notes</a>
+        <a id="admin-nav" class="nav-link hidden" href="#admin" data-page="admin"><span>⌘</span> Admin control</a>
+      </nav>
+      <div class="sidebar-bottom"><div class="streak"><span>🔥</span><div><b>4 day streak</b><small>Keep it going!</small></div></div><button class="text-button" id="sign-out">Sign out</button></div>
+    </aside>
 
-    <div id="joystick-zone"><div id="joystick-base"><div id="joystick-handle"></div></div></div>
-    
-    <div id="controls-zone">
-      <button id="gloo-btn" class="action-btn">GLOO WALL (5)</button>
-      <div>
-        <button id="btn-rifle" class="action-btn active">AK-47</button>
-        <button id="btn-shotgun" class="action-btn">M1887</button>
-      </div>
-      <button id="fire-btn">FIRE</button>
-    </div>
+    <main class="main-content">
+      <header class="topbar"><button class="menu-button" id="menu-button" aria-label="Open menu">☰</button><div class="crumb" id="page-kicker">Good afternoon, <b>Alex</b></div><div class="profile"><button class="bell" aria-label="Notifications">♧<i></i></button><div class="avatar" id="avatar">A</div><span id="profile-name">Alex Morgan</span></div></header>
+
+      <section class="page active" id="dashboard-page">
+        <div class="hero"><div><p class="eyebrow">YOUR LEARNING SPACE</p><h1>Small steps. <em>Big progress.</em></h1><p class="hero-copy">Your next study session is ready. Pick up where you left off and keep your momentum.</p><a href="#quiz" class="primary-button">Continue learning <span>→</span></a></div><div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="book">✦</div><span class="shape one"></span><span class="shape two"></span></div></div>
+        <div class="section-heading"><div><p class="eyebrow">AT A GLANCE</p><h2>Your progress</h2></div><button class="text-button">This week ▾</button></div>
+        <div class="stats"><article><span class="stat-icon lavender">◷</span><div><b>6h 42m</b><p>Study time</p><small class="up">↑ 18% from last week</small></div></article><article><span class="stat-icon amber">✓</span><div><b>82%</b><p>Average score</p><small class="up">↑ 6% from last week</small></div></article><article><span class="stat-icon coral">♙</span><div><b>12</b><p>Quizzes completed</p><small>3 more than last week</small></div></article></div>
+        <div class="dashboard-grid"><section class="card upcoming"><div class="card-heading"><div><p class="eyebrow">UP NEXT</p><h2>Keep your plan moving</h2></div><button class="icon-button" aria-label="More options">•••</button></div><div class="plan-item"><span class="subject-dot purple"></span><div><b>Biology · Cell Structure</b><p>Review notes &amp; practice quiz</p></div><span>35 min</span><button class="play" data-go="quiz" aria-label="Start Biology quiz">▶</button></div><div class="plan-item"><span class="subject-dot orange"></span><div><b>Mathematics · Algebra</b><p>Timed mock test</p></div><span>45 min</span><button class="play" data-go="mock" aria-label="Start Maths mock">▶</button></div><div class="plan-item"><span class="subject-dot teal"></span><div><b>History · The Renaissance</b><p>Read chapter summary</p></div><span>20 min</span><button class="play" data-go="notes" aria-label="Open History notes">▶</button></div></section><section class="card goal-card"><p class="eyebrow">WEEKLY GOAL</p><h2>You're doing great</h2><div class="goal-ring"><span>68<small>%</small></span></div><p>4h 48m of 7h completed</p><div class="progress"><i style="width:68%"></i></div><small>Just 2h 12m to go. You've got this!</small></section></div>
+      </section>
+
+      <section class="page" id="quiz-page"><div class="page-title"><div><p class="eyebrow">PRACTICE MODE</p><h1>Build confidence, one question at a time.</h1><p>Instant feedback helps you understand the why, not just the answer.</p></div><div class="subject-pill">Biology <span>⌄</span></div></div><div class="quiz-layout"><section class="card quiz-card"><div class="quiz-top"><span>Question <b id="question-number">1</b> of 5</span><div class="progress quiz-progress"><i id="quiz-progress" style="width:20%"></i></div></div><p class="question-label">CELL STRUCTURE</p><h2 id="question-text">Which part of a cell controls what enters and leaves it?</h2><div class="answers" id="answers"></div><div class="quiz-footer"><button class="text-button" id="skip-question">Skip for now</button><button class="primary-button" id="check-answer">Check answer</button></div></section><aside class="tip-card"><span>✦</span><h3>A little reminder</h3><p>It is okay to get an answer wrong. Each attempt is part of learning.</p></aside></div></section>
+
+      <section class="page" id="mock-page"><div class="mock-header"><div><p class="eyebrow">EXAM CONDITIONS</p><h1>Mathematics mock test</h1><p>15 questions · Calculator-free · Your answers are saved automatically.</p></div><div class="timer-chip"><span>◷</span><b id="mock-time">30:00</b><small>remaining</small></div></div><div class="mock-layout"><section class="card mock-question"><div class="question-nav" id="question-nav"></div><p class="question-label">QUESTION <span id="mock-question-number">1</span></p><h2 id="mock-question-text">Solve for x: 3x + 7 = 22</h2><div class="answers compact" id="mock-answers"></div><div class="mock-actions"><button class="secondary-button" id="previous-mock">← Previous</button><button class="primary-button" id="next-mock">Next question →</button></div></section><aside class="card rules"><h3>Stay focused</h3><ul><li>Timer continues while you are here.</li><li>Complete all questions before submitting.</li><li>Use the review list to revisit answers.</li></ul><button class="danger-button" id="submit-mock">Submit mock test</button></aside></div></section>
+
+      <section class="page" id="timer-page"><div class="page-title centered"><p class="eyebrow">FOCUS SESSION</p><h1>Your time, your pace.</h1><p>Choose a length, remove distractions, and begin when you are ready.</p></div><section class="timer-workspace"><div class="timer-card"><div class="mode-tabs"><button class="selected" data-mode="focus">Focus</button><button data-mode="short">Short break</button><button data-mode="long">Long break</button></div><div class="timer-display" id="timer-display">25:00</div><p id="timer-message">One focused session at a time.</p><div class="timer-controls"><button class="round-button" id="reset-timer" aria-label="Reset timer">↻</button><button class="start-button" id="start-timer">Start focus</button><button class="round-button" id="sound-timer" aria-label="Toggle sound">♬</button></div></div><div class="timer-settings"><h3>Make it yours</h3><label>Focus duration <output id="focus-output">25 min</output><input id="focus-range" type="range" min="5" max="90" value="25" step="5" /></label><label>What are you working on?<input id="task-input" type="text" value="Biology revision" /></label><div class="session-summary"><span>◷</span><div><b>2h 15m</b><small>focused today</small></div></div></div></section></section>
+
+      <section class="page" id="notes-page"><div class="page-title row"><div><p class="eyebrow">YOUR LIBRARY</p><h1>Notes that work for you.</h1><p>Keep everything you need in one calm, organised space.</p></div><button class="primary-button" id="new-note">+ New note</button></div><div class="notes-layout"><div class="notes-list" id="notes-list"></div><article class="card note-editor"><input id="note-title" aria-label="Note title" value="Cell structure — overview" /><p class="note-meta">Biology · Edited just now</p><textarea id="note-content">The cell membrane is selectively permeable. It controls the movement of substances in and out of the cell.
+
+Plant cells also contain a cell wall, chloroplasts and a permanent vacuole.</textarea><div><button class="primary-button" id="save-note">Save changes</button><span class="save-status" id="save-status"></span></div></article></div></section>
+
+      <section class="page" id="admin-page"><div class="page-title row"><div><p class="eyebrow">ADMIN CONTROL</p><h1>StudiesSupport management.</h1><p>Manage learners and learning materials from one protected space.</p></div><span class="admin-badge">Restricted access</span></div><div class="admin-stats"><article class="card"><b>248</b><p>Active learners</p></article><article class="card"><b>3</b><p>Suspended accounts</p></article><article class="card"><b>37</b><p>Published notes</p></article></div><div class="admin-grid"><section class="card"><div class="card-heading"><h2>Learner accounts</h2><button class="secondary-button" id="add-user">+ Add user</button></div><div class="user-row"><div class="avatar small">JM</div><div><b>Jamie Miller</b><p>jamie@example.com</p></div><span class="status active-status">Active</span><button class="suspend-button">Suspend</button></div><div class="user-row"><div class="avatar small green">SR</div><div><b>Sam Rivera</b><p>sam@example.com</p></div><span class="status active-status">Active</span><button class="suspend-button">Suspend</button></div><div class="user-row"><div class="avatar small orange">AB</div><div><b>Avery Brown</b><p>avery@example.com</p></div><span class="status suspended-status">Suspended</span><button class="restore-button">Restore</button></div></section><section class="card materials"><div class="card-heading"><h2>Learning materials</h2><button class="secondary-button" id="add-material">+ Add material</button></div><button class="material-action" data-go="notes"><span>▤</span><div><b>Manage notes</b><small>Create, edit or organise study notes</small></div><i>→</i></button><button class="material-action" data-go="quiz"><span>✦</span><div><b>Manage questions</b><small>Review and update practice questions</small></div><i>→</i></button><button class="material-action"><span>▦</span><div><b>Manage subjects</b><small>Add topics and organise your library</small></div><i>→</i></button></section></div></section>
+    </main>
   </div>
-
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      // --- SCENE SETUP ---
-      const container = document.getElementById('game-container');
-      const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x7ec0ee);
-      scene.fog = new THREE.FogExp2(0x7ec0ee, 0.015);
-
-      const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      container.appendChild(renderer.domElement);
-
-      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
-      hemiLight.position.set(0, 200, 0);
-      scene.add(hemiLight);
-
-      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-      dirLight.position.set(50, 80, 50);
-      dirLight.castShadow = true;
-      dirLight.shadow.camera.top = 100; dirLight.shadow.camera.bottom = -100;
-      dirLight.shadow.camera.left = -100; dirLight.shadow.camera.right = 100;
-      scene.add(dirLight);
-
-      const ground = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshLambertMaterial({ color: 0x3d8c40 }));
-      ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true;
-      scene.add(ground);
-
-      // --- PROCEDURAL TREES & ROCKS ---
-      function createTree(x, z) {
-        const tree = new THREE.Group();
-        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.6, 3, 8), new THREE.MeshLambertMaterial({ color: 0x5c4033 }));
-        trunk.position.y = 1.5; trunk.castShadow = true;
-        const leaves = new THREE.Mesh(new THREE.ConeGeometry(2.5, 5, 8), new THREE.MeshLambertMaterial({ color: 0x228b22 }));
-        leaves.position.y = 4.5; leaves.castShadow = true;
-        tree.add(trunk, leaves); tree.position.set(x, 0, z); scene.add(tree);
-      }
-      function createRock(x, z, scale) {
-        const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(1), new THREE.MeshLambertMaterial({ color: 0x7f8c8d }));
-        rock.position.set(x, scale / 2, z); rock.scale.set(scale, scale, scale); rock.castShadow = true; scene.add(rock);
-      }
-      for(let i = 0; i < 40; i++) {
-        createTree((Math.random() - 0.5) * 200, (Math.random() - 0.5) * 200);
-        createRock((Math.random() - 0.5) * 200, (Math.random() - 0.5) * 200, Math.random() * 1.5 + 0.5);
-      }
-
-      // --- HUMANOID GENERATOR (For Enemies) ---
-      function createHumanoid(skinColor, shirtColor, pantsColor) {
-        const group = new THREE.Group();
-        const head = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 0.6), new THREE.MeshLambertMaterial({ color: skinColor }));
-        head.position.set(0, 1.8, 0); head.castShadow = true;
-        const torso = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.1, 0.5), new THREE.MeshLambertMaterial({ color: shirtColor }));
-        torso.position.set(0, 1.0, 0); torso.castShadow = true;
-        const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.9, 0.4), new THREE.MeshLambertMaterial({ color: pantsColor }));
-        leftLeg.position.set(-0.25, 0.45, 0); leftLeg.castShadow = true;
-        const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.9, 0.4), new THREE.MeshLambertMaterial({ color: pantsColor }));
-        rightLeg.position.set(0.25, 0.45, 0); rightLeg.castShadow = true;
-        group.add(head, torso, leftLeg, rightLeg);
-        return group;
-      }
-
-      // --- PLAYER & CUSTOM WEAPON SKINS ---
-      let playerHP = 100;
-      let playerYaw = 0;
-      let kills = 0;
-      
-      // 1. Restore the base character so you are never invisible
-      const player = createHumanoid(0xffe0bd, 0x2980b9, 0x2c3e50);
-      scene.add(player);
-      
-      // 2. You can keep your GLB loader here! 
-      // If a valid model eventually loads, it will automatically wrap around your base character.
-      const loader = new THREE.GLTFLoader();
-      loader.load('spiderman.glb', function(gltf) {
-        const spidermanModel = gltf.scene;
-        spidermanModel.scale.set(0.01, 0.01, 0.01); 
-        spidermanModel.position.set(0, -1.0, 0); // Lowered slightly to match the box man's feet
-        spidermanModel.rotation.y = Math.PI; 
-        player.add(spidermanModel);
-      });
-
-
-      // Weapon 1: Custom Sci-Fi Energy Rifle
-      let ak47 = new THREE.Group(); 
-      const darkMetal = new THREE.MeshLambertMaterial({color: 0x222222});
-      const neonGlow = new THREE.MeshBasicMaterial({color: 0x00ffcc}); 
-      
-      const gunBody = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.15, 0.5), darkMetal);
-      gunBody.position.set(0, 0, 0);
-      const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 8), darkMetal);
-      barrel.rotation.x = Math.PI / 2;
-      barrel.position.set(0, 0.03, -0.4);
-      const core = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.05, 0.25), neonGlow);
-      core.position.set(0, 0.03, -0.1);
-      const scope = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.2, 8), darkMetal);
-      scope.rotation.x = Math.PI / 2;
-      scope.position.set(0, 0.12, 0);
-      const grip = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.15, 0.1), darkMetal);
-      grip.rotation.x = Math.PI / 8;
-      grip.position.set(0, -0.1, 0.1);
-      
-      ak47.add(gunBody, barrel, core, scope, grip);
-      ak47.position.set(0.4, 1.0, -0.6);
-      player.add(ak47);
-
-      // Weapon 2: M1887 Shotgun Skin
-      const m1887 = new THREE.Group();
-      const sgBarrel = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.08, 0.9), new THREE.MeshLambertMaterial({color: 0x777777})); 
-      sgBarrel.position.set(0, 0, -0.45);
-      const sgStock = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.15, 0.4), new THREE.MeshLambertMaterial({color: 0x5c4033})); 
-      sgStock.position.set(0, -0.05, 0.2);
-      m1887.add(sgBarrel, sgStock);
-      m1887.position.set(0.4, 1.0, -0.6);
-      m1887.visible = false; 
-      player.add(m1887);
-
-      // --- WEAPON SYSTEM ---
-      let currentWeapon = 'rifle';
-      const weapons = { rifle: { damage: 35, speed: 1.2, cooldown: 120 }, shotgun: { damage: 25, speed: 0.9, cooldown: 500 } };
-      let lastShot = 0; const bullets = [];
-
-      document.getElementById('btn-rifle').onclick = () => {
-        currentWeapon = 'rifle';
-        document.getElementById('btn-rifle').classList.add('active');
-        document.getElementById('btn-shotgun').classList.remove('active');
-        ak47.visible = true;
-        m1887.visible = false;
-      };
-
-      document.getElementById('btn-shotgun').onclick = () => {
-        currentWeapon = 'shotgun';
-        document.getElementById('btn-shotgun').classList.add('active');
-        document.getElementById('btn-rifle').classList.remove('active');
-        ak47.visible = false;
-        m1887.visible = true;
-      };
-
-      document.getElementById('fire-btn').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        if (Date.now() - lastShot < weapons[currentWeapon].cooldown) return;
-        lastShot = Date.now();
-        const spawnBullet = (spread) => {
-          const b = new THREE.Mesh(new THREE.SphereGeometry(0.12), new THREE.MeshBasicMaterial({ color: 0xf1c40f }));
-          const pos = new THREE.Vector3(); 
-          if(currentWeapon === 'rifle') ak47.getWorldPosition(pos); else m1887.getWorldPosition(pos);
-          b.position.copy(pos);
-          const angle = playerYaw + spread; scene.add(b);
-          bullets.push({ mesh: b, dir: new THREE.Vector3(-Math.sin(angle), 0, -Math.cos(angle)).normalize(), life: 60 });
-        };
-        if (currentWeapon === 'rifle') spawnBullet(0); else [-0.1, -0.03, 0.03, 0.1].forEach(spawnBullet);
-      });
-
-      // --- GLOO WALLS ---
-      let glooCount = 5;
-      const glooWalls = [];
-      document.getElementById('gloo-btn').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        if (glooCount > 0) {
-          const wall = new THREE.Mesh(
-            new THREE.CylinderGeometry(2.5, 2.5, 3, 16, 1, false, -Math.PI/2, Math.PI),
-            new THREE.MeshLambertMaterial({ color: 0x00ffff, transparent: true, opacity: 0.7, side: THREE.DoubleSide })
-          );
-          const forward = new THREE.Vector3(-Math.sin(playerYaw), 0, -Math.cos(playerYaw));
-          wall.position.copy(player.position).addScaledVector(forward, 3.5);
-          wall.position.y = 1.5; wall.rotation.y = playerYaw; wall.castShadow = true;
-          scene.add(wall); glooWalls.push(wall);
-          glooCount--; document.getElementById('gloo-btn').innerText = `GLOO WALL (${glooCount})`;
-          setTimeout(() => { scene.remove(wall); glooWalls.splice(glooWalls.indexOf(wall), 1); }, 8000);
-        }
-      });
-
-      // --- ENEMIES & HEALTH DAMAGE ---
-      const enemies = [];
-      function spawnEnemy(x, z) {
-        const enemy = createHumanoid(0xffe0bd, 0xe74c3c, 0x222222);
-        enemy.position.set(x, 0, z); scene.add(enemy);
-        enemies.push({ mesh: enemy, hp: 100, lastAttack: 0 });
-      }
-      for(let i=0; i<8; i++) spawnEnemy((Math.random()-0.5)*150, (Math.random()-0.5)*150);
-
-      // --- CONTROLS ---
-      let moveX = 0, moveZ = 0, touchStartX = 0;
-      const joystickZone = document.getElementById('joystick-zone'), joystickHandle = document.getElementById('joystick-handle');
-      
-      joystickZone.addEventListener('touchmove', (e) => {
-        const touch = e.touches[0], rect = joystickZone.getBoundingClientRect();
-        const deltaX = touch.clientX - (rect.left + rect.width / 2), deltaY = touch.clientY - (rect.top + rect.height / 2);
-        const dist = Math.min(Math.sqrt(deltaX*deltaX + deltaY*deltaY), 35), angle = Math.atan2(deltaY, deltaX);
-        joystickHandle.style.transform = `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px)`;
-        moveX = Math.cos(angle)*dist/35; moveZ = Math.sin(angle)*dist/35;
-      });
-      joystickZone.addEventListener('touchend', () => { joystickHandle.style.transform = 'translate(0,0)'; moveX = moveZ = 0; });
-
-      // Player Rotation (Screen Drag)
-      window.addEventListener('touchstart', (e) => { 
-        for (let i=0; i<e.touches.length; i++) {
-          if (e.touches[i].clientX > window.innerWidth/2 && e.target.id !== 'free-look-btn') {
-            touchStartX = e.touches[i].clientX; 
-          }
-        }
-      });
-      window.addEventListener('touchmove', (e) => {
-        for (let i=0; i<e.touches.length; i++) {
-          if (e.touches[i].clientX > window.innerWidth/2 && e.target.id !== 'free-look-btn') {
-            playerYaw -= (e.touches[i].clientX - touchStartX) * 0.006; 
-            touchStartX = e.touches[i].clientX;
-          }
-        }
-      });
-
-      // --- FREE LOOK (360 VIEW) SYSTEM ---
-      let freeLookYaw = 0;
-      let isFreeLooking = false;
-      let freeLookStartX = 0;
-      const freeLookBtn = document.getElementById('free-look-btn');
-
-      freeLookBtn.addEventListener('touchstart', (e) => {
-        e.stopPropagation(); 
-        isFreeLooking = true;
-        freeLookStartX = e.touches[0].clientX;
-      });
-
-      freeLookBtn.addEventListener('touchmove', (e) => {
-        e.stopPropagation();
-        if (!isFreeLooking) return;
-        freeLookYaw -= (e.touches[0].clientX - freeLookStartX) * 0.01; 
-        freeLookStartX = e.touches[0].clientX;
-      });
-
-      freeLookBtn.addEventListener('touchend', (e) => {
-        e.stopPropagation();
-        isFreeLooking = false;
-        freeLookYaw = 0; 
-      });
-
-      // --- GAME LOOP ---
-      function animate() {
-        requestAnimationFrame(animate);
-
-        player.rotation.y = playerYaw;
-        const forward = new THREE.Vector3(-Math.sin(playerYaw), 0, -Math.cos(playerYaw));
-        const side = new THREE.Vector3(Math.cos(playerYaw), 0, -Math.sin(playerYaw));
-        player.position.addScaledVector(side, moveX * 0.15).addScaledVector(forward, -moveZ * 0.15);
-
-        // --- 360 CAMERA COMBINATION ---
-        const currentCamYaw = playerYaw + freeLookYaw;
-
-        // X=0 (Centered), Y=2.5 (Head height), Z=5.5 (Distance behind player)
-        const camOffset = new THREE.Vector3(0, 2.5, 5.5).applyAxisAngle(new THREE.Vector3(0, 1, 0), currentCamYaw);
-        camera.position.copy(player.position).add(camOffset);
-        
-        // Always lock the camera's focus exactly onto the player's upper body
-        camera.lookAt(player.position.x, player.position.y + 1.5, player.position.z);
-
-
-        // Bullets
-        for (let i = bullets.length - 1; i >= 0; i--) {
-          const b = bullets[i];
-          b.mesh.position.addScaledVector(b.dir, weapons[currentWeapon].speed); b.life--;
-          for (let w = 0; w < glooWalls.length; w++) if (b.mesh.position.distanceTo(glooWalls[w].position) < 2.8) b.life = 0;
-          
-          for (let j = enemies.length - 1; j >= 0; j--) {
-            const enemy = enemies[j];
-            if (b.mesh.position.distanceTo(enemy.mesh.position) < 1.3) {
-              enemy.hp -= weapons[currentWeapon].damage; b.life = 0;
-              if (enemy.hp <= 0) {
-                scene.remove(enemy.mesh); enemies.splice(j, 1);
-                kills++; document.getElementById('kill-count').innerText = kills;
-                spawnEnemy((Math.random()-0.5)*150, (Math.random()-0.5)*150);
-              }
-              break;
-            }
-          }
-          if (b.life <= 0) { scene.remove(b.mesh); bullets.splice(i, 1); }
-        }
-
-        // Enemy AI & Player Damage
-        const hpBar = document.getElementById('health-bar-fill');
-        enemies.forEach(enemy => {
-          const distToPlayer = enemy.mesh.position.distanceTo(player.position);
-          
-          if (distToPlayer <= 2.5) {
-            if (Date.now() - enemy.lastAttack > 1000) { 
-              playerHP -= 15;
-              hpBar.style.width = Math.max(0, playerHP) + '%';
-              hpBar.style.backgroundColor = '#e74c3c'; 
-              setTimeout(() => { hpBar.style.backgroundColor = '#2ecc71'; }, 200); 
-              enemy.lastAttack = Date.now();
-
-              if (playerHP <= 0) {
-                alert("YOU WERE ELIMINATED! Respawning...");
-                playerHP = 100;
-                hpBar.style.width = '100%';
-                player.position.set(0, 0, 0); 
-              }
-            }
-          } else if (distToPlayer < 40) {
-            let blocked = false;
-            for (let w = 0; w < glooWalls.length; w++) if (enemy.mesh.position.distanceTo(glooWalls[w].position) < 3) blocked = true;
-            if (!blocked) {
-              const enemyDir = new THREE.Vector3().subVectors(player.position, enemy.mesh.position).normalize();
-              enemy.mesh.position.addScaledVector(enemyDir, 0.05);
-              enemy.mesh.lookAt(player.position.x, 0, player.position.z);
-            }
-          }
-        });
-
-        renderer.render(scene, camera);
-      }
-      animate();
-    });
-  </script>
+  <div class="modal-backdrop hidden" id="login-modal"><form class="login-modal" id="login-form"><button type="button" class="modal-close" id="close-login">×</button><span class="brand-mark">S</span><p class="eyebrow">WELCOME TO STUDIESSUPPORT</p><h2>Sign in to save your progress.</h2><label>Email address<input id="email" type="email" placeholder="you@example.com" required /></label><label>Password<input id="password" type="password" placeholder="••••••••" required /></label><p class="login-error" id="login-error"></p><button class="primary-button" type="submit">Sign in <span>→</span></button><small>Demo access: use <b>studiessupport@gmail.com</b> to view the admin area.</small></form></div>
+  <div class="toast hidden" id="toast"></div>
+  <script src="main.js"></script>
 </body>
 </html>
